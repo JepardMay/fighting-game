@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fighting Game</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Press Start 2P", system-ui;
+      background-color: black;
+    }
+
+    canvas {
+      image-rendering: pixelated;
+    }
+
+    .container {
+      position: relative;
+      display: inline-block;
+    }
+
+    .header {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .health-bar {
+      position:  relative;
+      flex-grow: 1;
+      height: 30px;
+      background-color: #941e29;
+    }
+
+    .health-bar:first-child,
+    .health-bar:first-child .inner-health-bar {
+      clip-path: polygon(50px 0%, 100% 0%, 100% 100%, 0% 100%);
+    }
+
+    .health-bar:last-child,
+    .health-bar:last-child .inner-health-bar {
+      clip-path: polygon(0 0, 100% 0%, calc(100% - 50px) 100%, 0% 100%);
+    }
+
+    .inner-health-bar {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+
+      width: 100%;
+      background-color: #633f75;
+    }
+
+    .health-bar:first-child .inner-health-bar {
+      right: 0;
+    }
+
+    .health-bar:last-child .inner-health-bar {
+      left: 0;
+    }
+
+    .timer {
+      position: relative;
+      z-index: 2;
+      flex-shrink: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 170px;
+      height: 50px;
+      margin: 0 -50px;
+      font-size: 24px;
+      color: white;
+      background-color: #24221b;
+      clip-path: polygon(50px 0%, 100% 0%, calc(100% - 50px) 100%, 0% 100%);
+    }
+    
+    .result {
+      position: absolute;
+      top: 50%;
+      left: 0;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      padding: 50px;
+      font-size: 54px;
+      text-align: center;
+      color: white;
+      opacity: 0;
+      pointer-events: none;
+      transform: translate3d(-0, -50%, 0);
+    }
+
+    .restart {
+      margin-top: 20px;
+      padding: 20px 70px;
+      font: inherit;
+      font-size: 14px;
+      color: white;
+      background-color: #633f75;
+      border: none;
+      clip-path: polygon(50px 0%, 100% 0%, calc(100% - 50px) 100%, 0% 100%);
+      cursor: pointer;
+      transition: background-color 0.3s ease-in-out;
+    }
+
+    .restart:hover {
+      background-color: #941e29;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div id="player-health" class="health-bar">
+        <div class="inner-health-bar"></div>
+      </div>
+      <div id="timer" class="timer">
+        10
+      </div>
+      <div id="enemy-health" class="health-bar">
+        <div class="inner-health-bar"></div></div>
+    </div>
+    <div id="result" class="result"><span></span>
+      <button id="restartBtn" class="restart" type="button">Restart</button>
+    </div>
+    <canvas></canvas>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" integrity="sha512-7eHRwcbYkK4d9g/6tD/mhkf++eoTHwpNM9woBxtPUBWm67zeAfFC+HrdoE2GanKeocly/VxeLvIqwvCdk7qScg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/classes.js"></script>
+  <script src="index.js"></script>
+</body>
+</html>
