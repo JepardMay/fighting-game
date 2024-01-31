@@ -15,6 +15,7 @@ canvas.height = 576;
 const gravity = 0.7;
 
 let animationId;
+let clicked;
 
 const background = new Sprite({
   position: {
@@ -244,6 +245,7 @@ function animate() {
   }) && player.framesCurrent === 4) {
     player.isAttacking = false;
     enemy.takeHit(20);
+    audio.hit.play();
     gsap.to(enemyHealthEl, {
       width: enemy.health > 0 ? enemy.health * 100 / enemy.initialHealth + '%' : '0%',
       duration: 0.3,
@@ -254,6 +256,7 @@ function animate() {
   // if player misses
   if (player.isAttacking && player.framesCurrent === 4) {
     player.isAttacking = false;
+    audio.miss.play();
   }
 
 
@@ -264,6 +267,7 @@ function animate() {
   }) && enemy.framesCurrent === 2) {
     enemy.isAttacking = false;
     player.takeHit(20);
+    audio.hit.play();
     gsap.to(playerHealthEl, {
       width: player.health > 0 ? player.health * 100 / player.initialHealth + '%' : '0%',
       duration: 0.3,
@@ -274,6 +278,7 @@ function animate() {
   // if enemy misses
   if (enemy.isAttacking && enemy.framesCurrent === 2) {
     enemy.isAttacking = false;
+    audio.miss.play();
   }
 
   // end game based on health
@@ -291,8 +296,20 @@ function animate() {
   }
 }
 
-function init() {
+function start() {
   timer = 60;
+
+  restartBtn.blur();
+  gsap.to(resultEl, {
+    opacity: 0,
+    pointerEvents: 'none',
+    duration: 1
+  });
+  
+  decreaseTimer();
+}
+
+function init() {
   player = new Fighter({
     position: {
       x: 100,
@@ -422,18 +439,10 @@ function init() {
     duration: 0,
   });
 
-  restartBtn.blur();
-  gsap.to(resultEl, {
-    opacity: 0,
-    pointerEvents: 'none'
-  });
-
-  decreaseTimer();
+  start();
 }
 
 animate();
-
-decreaseTimer();
 
 addEventListener('keydown', ({ code }) => {
   if (!player.dead) {
@@ -503,5 +512,14 @@ addEventListener('keyup', ({ code }) => {
 });
 
 restartBtn.addEventListener('click', () => {
-  init();
+  if (!clicked) {
+    clicked = true;
+    audio.theme.play();
+    start();
+    restartBtn.textContent = 'Restart';
+  } else {
+    init();
+  }
+
+  audio.click.play();
 });

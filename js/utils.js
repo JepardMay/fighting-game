@@ -16,7 +16,7 @@ function determineWinner({player, enemy}) {
   const span = resultEl.querySelector('span');
 
   if (player.health <= 0 && enemy.health <= 0) {
-    span.textContent = 'Double trouble!';
+    span.textContent = 'Double kill!';
   } else if (player.health === enemy.health) {
     span.textContent = 'Tie!';
   } else if (player.health > enemy.health) {
