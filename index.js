@@ -291,7 +291,7 @@ function animate() {
     enemy.switchSprite('death');
   }
 
-  if (enemy.health <= 0 || player.health <= 0) {
+  if (enemy.dead || player.dead) {
     determineWinner({player, enemy});
   }
 }
@@ -299,11 +299,22 @@ function animate() {
 function start() {
   timer = 60;
 
+  if (!clicked) {
+    audio.theme.play();
+  }
+
   restartBtn.blur();
   gsap.to(resultEl, {
     opacity: 0,
     pointerEvents: 'none',
-    duration: 1
+    duration: 1,
+    onComplete: () => {
+      if (!clicked) {
+        restartBtn.textContent = 'Restart';
+        document.querySelector('#how-to').style.display = 'none';
+        clicked = true;
+      }
+    }
   });
   
   decreaseTimer();
@@ -513,10 +524,7 @@ addEventListener('keyup', ({ code }) => {
 
 restartBtn.addEventListener('click', () => {
   if (!clicked) {
-    clicked = true;
-    audio.theme.play();
     start();
-    restartBtn.textContent = 'Restart';
   } else {
     init();
   }

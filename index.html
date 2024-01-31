@@ -97,6 +97,7 @@
       position: absolute;
       top: 0;
       left: 0;
+      z-index: 10;
 
       display: flex;
       flex-direction: column;
@@ -108,14 +109,14 @@
       font-size: 54px;
       text-align: center;
       color: white;
-      background-color: rgba(255, 255, 255, 0.2);
+      background-color: rgba(0, 0, 0, 0.6);
     }
 
     .restart {
       margin-top: 20px;
       padding: 20px 70px;
       font: inherit;
-      font-size: 14px;
+      font-size: 18px;
       color: white;
       background-color: #633f75;
       border: none;
@@ -126,6 +127,20 @@
 
     .restart:hover {
       background-color: #941e29;
+    }
+
+    .how-to {
+      max-width: 560px;
+      font-size: 14px;
+      line-height: 28px;
+    }
+
+    .highlight {
+      padding: 5px;
+      color: #633f75;
+      background-color: white !important;
+      border: 1px solid lightblue;
+      border-radius: 2px;
     }
   </style>
 </head>
@@ -143,6 +158,10 @@
     </div>
     <div id="result" class="result"><span></span>
       <button id="restartBtn" class="restart" type="button">Start</button>
+      <div id="how-to" class="how-to">
+        <p>Move the Hero on the left by pressing <span class="highlight">w</span>, <span class="highlight">a</span>, <span class="highlight">d</span>, and press <span class="highlight">Space</span> for attack.</p>
+        <p>Move the Hero on the right by pressing <span class="highlight">arrow up</span>, <span class="highlight">arrow left</span>, <span class="highlight">arrow right</span>, and press <span class="highlight">arrow down</span> for attack.</p>
+      </div>
     </div>
     <canvas></canvas>
   </div>
