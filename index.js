@@ -244,7 +244,7 @@ function animate() {
     rectangle2: enemy
   }) && player.framesCurrent === 4) {
     player.isAttacking = false;
-    enemy.takeHit(20);
+    enemy.takeHit(25);
     audio.hit.play();
     gsap.to(enemyHealthEl, {
       width: enemy.health > 0 ? enemy.health * 100 / enemy.initialHealth + '%' : '0%',
@@ -301,6 +301,7 @@ function start() {
 
   if (!clicked) {
     audio.theme.play();
+    clicked = true;
   }
 
   restartBtn.blur();
@@ -309,10 +310,9 @@ function start() {
     pointerEvents: 'none',
     duration: 1,
     onComplete: () => {
-      if (!clicked) {
+      if (restartBtn.textContent !== 'Restart') {
         restartBtn.textContent = 'Restart';
         document.querySelector('#how-to').style.display = 'none';
-        clicked = true;
       }
     }
   });
@@ -456,7 +456,7 @@ function init() {
 animate();
 
 addEventListener('keydown', ({ code }) => {
-  if (!player.dead) {
+  if (player.health > 0 && clicked) {
     switch (code) {
       case 'KeyD':
         keys.KeyD.pressed = true;
@@ -475,7 +475,7 @@ addEventListener('keydown', ({ code }) => {
     };
   }
 
-  if (!enemy.dead) {
+  if (enemy.health > 0 && clicked) {
     switch (code) {
       case 'ArrowRight':
         keys.ArrowRight.pressed = true;
